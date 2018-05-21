@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -79,6 +80,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
     private int headerVariableSpace;
     private int paletteColorPrimary;
     private boolean isInNoImageMode;
+    private MediaMetadataRetriever mmr = new MediaMetadataRetriever();
     private final SimpleObservableScrollViewCallbacks observableScrollViewCallbacks = new SimpleObservableScrollViewCallbacks() {
         @Override
         public void onScrollChanged(int scrollY, boolean b, boolean b2) {
@@ -108,7 +110,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
             finish();
             return;
         }
-
+        mmr.setDataSource(songPaths.get(0));
         headerVariableSpace = getResources().getDimensionPixelSize(R.dimen.tagEditorHeaderVariableSpace);
 
         setUpViews();
@@ -435,7 +437,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
     @Nullable
     protected String getSongTitle() {
         try {
-            return getAudioFile(songPaths.get(0)).getTagOrCreateAndSetDefault().getFirst(FieldKey.TITLE);
+            return mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
         } catch (Exception ignored) {
             return null;
         }
@@ -444,7 +446,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
     @Nullable
     protected String getAlbumTitle() {
         try {
-            return getAudioFile(songPaths.get(0)).getTagOrCreateAndSetDefault().getFirst(FieldKey.ALBUM);
+            return mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
         } catch (Exception ignored) {
             return null;
         }
@@ -453,7 +455,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
     @Nullable
     protected String getArtistName() {
         try {
-            return getAudioFile(songPaths.get(0)).getTagOrCreateAndSetDefault().getFirst(FieldKey.ARTIST);
+            return mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
         } catch (Exception ignored) {
             return null;
         }
@@ -462,7 +464,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
     @Nullable
     protected String getAlbumArtistName() {
         try {
-            return getAudioFile(songPaths.get(0)).getTagOrCreateAndSetDefault().getFirst(FieldKey.ALBUM_ARTIST);
+            return mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST);
         } catch (Exception ignored) {
             return null;
         }
@@ -471,7 +473,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
     @Nullable
     protected String getGenreName() {
         try {
-            return getAudioFile(songPaths.get(0)).getTagOrCreateAndSetDefault().getFirst(FieldKey.GENRE);
+            return mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE);
         } catch (Exception ignored) {
             return null;
         }
@@ -480,7 +482,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
     @Nullable
     protected String getSongYear() {
         try {
-            return getAudioFile(songPaths.get(0)).getTagOrCreateAndSetDefault().getFirst(FieldKey.YEAR);
+            return mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR);
         } catch (Exception ignored) {
             return null;
         }
@@ -489,7 +491,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
     @Nullable
     protected String getTrackNumber() {
         try {
-            return getAudioFile(songPaths.get(0)).getTagOrCreateAndSetDefault().getFirst(FieldKey.TRACK);
+            return mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER);
         } catch (Exception ignored) {
             return null;
         }
