@@ -1,3 +1,5 @@
+import javax.annotation.Nullable
+
 buildscript {
     repositories {
         mavenCentral()
@@ -54,8 +56,8 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         applicationId 'com.kabouzeid.gramophone'
-        versionCode 161
-        versionName '1.0.1'
+        versionCode 167
+        versionName '1.2.0'
     }
     signingConfigs {
         release {
@@ -90,6 +92,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    // Required for IntroActivity
+    dataBinding {
+        enabled = true
     }
 }
 
